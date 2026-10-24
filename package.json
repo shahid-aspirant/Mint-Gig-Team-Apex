@@ -7,6 +7,7 @@
     "start": "cd mintgig/server && npm start",
     "seed": "cd mintgig/server && npm run seed",
     "test": "cd mintgig/server && npm test",
+    "build": "cd mintgig/client && npm run build",
     "build:client": "cd mintgig/client && npm run build"
   }
 }
