@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await api.post('/auth/logout');
     } catch (_) {}
+    localStorage.removeItem('mintgig_token');
     setUser(null);
     setProfile(null);
   };

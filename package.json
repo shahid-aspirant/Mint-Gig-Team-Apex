@@ -1,0 +1,12 @@
+{
+  "name": "mintgig-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "mintGig — Learning, Certification, Automatic Portfolio & Freelance Ecosystem",
+  "scripts": {
+    "start": "cd mintgig/server && npm start",
+    "seed": "cd mintgig/server && npm run seed",
+    "test": "cd mintgig/server && npm test",
+    "build:client": "cd mintgig/client && npm run build"
+  }
+}

@@ -1,0 +1,50 @@
+name: mintGig CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-backend:
+    name: Test Backend API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: mintgig/server/package-lock.json
+
+      - name: Install Server Dependencies
+        working-directory: mintgig/server
+        run: npm ci
+
+      - name: Run Backend Integration & Security Tests
+        working-directory: mintgig/server
+        run: npm test
+
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: mintgig/client/package-lock.json
+
+      - name: Install Client Dependencies
+        working-directory: mintgig/client
+        run: npm ci
+
+      - name: Build Production Bundle
+        working-directory: mintgig/client
+        run: npm run build
