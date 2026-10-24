@@ -1,7 +1,17 @@
 import mongoose from 'mongoose';
 
 const connectDB = async () => {
-  const uri = process.env.MONGO_URI || 'mongodb://localhost:27017/mintgig';
+  const uri = process.env.MONGO_URI;
+
+  if (process.env.SUPABASE_URL) {
+    console.log(`📡 Supabase PostgreSQL configured: ${process.env.SUPABASE_URL}`);
+  }
+
+  if (!uri) {
+    console.log(`ℹ️  No MONGO_URI specified. Operating with Supabase backend.`);
+    return null;
+  }
+
   try {
     const conn = await mongoose.connect(uri, {
       serverSelectionTimeoutMS: 5000,
@@ -9,9 +19,11 @@ const connectDB = async () => {
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     return conn;
   } catch (error) {
-    console.error(`❌ MongoDB Connection Error: ${error.message}`);
-    console.error(`👉 Ensure MongoDB is running locally (e.g. 'mongod' or 'docker run -d -p 27017:27017 mongo')`);
-    console.error(`👉 Or set MONGO_URI in 'mintgig/server/.env' to a MongoDB Atlas cluster URI`);
+    if (process.env.SUPABASE_URL) {
+      console.log(`ℹ️  Local MongoDB not running. Using Supabase database at ${process.env.SUPABASE_URL}`);
+      return null;
+    }
+    console.error(`❌ Database Connection Error: ${error.message}`);
     throw error;
   }
 };
