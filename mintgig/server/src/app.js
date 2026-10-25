@@ -33,7 +33,8 @@ app.use(
         allowedOrigins.includes(origin) ||
         allowedOrigins.includes('*') ||
         /\.vercel\.app$/.test(origin) ||
-        /\.onrender\.com$/.test(origin)
+        /\.onrender\.com$/.test(origin) ||
+        /\.github\.io$/.test(origin)
       ) {
         return callback(null, true);
       }

@@ -2,7 +2,7 @@ name: Deploy Frontend to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, shahid]
   workflow_dispatch:
 
 permissions:
@@ -36,6 +36,7 @@ jobs:
       - name: Build Production Bundle
         working-directory: mintgig/client
         env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://yblwdprzljhpqkzdvklq.supabase.co' }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY || 'sb_publishable_HJNIMVlRaFoi6OdR5ynOHw_IpvhrENQ' }}
         run: |

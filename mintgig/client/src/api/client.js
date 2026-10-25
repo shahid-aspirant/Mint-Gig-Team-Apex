@@ -28,11 +28,17 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    const message =
+    let message =
       error.response?.data?.message ||
-      error.response?.data?.error ||
-      error.message ||
-      'An unexpected error occurred';
+      error.response?.data?.error;
+
+    if (!message && error.response?.status === 405) {
+      message =
+        'Backend API endpoint not reachable (HTTP 405 Method Not Allowed). GitHub Pages only serves static assets. Please ensure the backend is deployed (e.g., Render/Railway) and VITE_API_URL is configured in your build settings.';
+    } else if (!message) {
+      message = error.message || 'An unexpected error occurred';
+    }
+
     return Promise.reject(new Error(message));
   }
 );

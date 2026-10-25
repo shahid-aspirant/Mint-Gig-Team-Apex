@@ -36,7 +36,25 @@ export const PublicPortfolioPage = () => {
           setData(res.data);
         }
       } catch (_) {
-        setData(null);
+        const cached = localStorage.getItem('mintgig_session');
+        let matched = false;
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (parsed.user?.username?.toLowerCase() === username?.toLowerCase()) {
+              setData({
+                user: parsed.user,
+                profile: parsed.profile || {},
+                certificates: [],
+                completedCourses: [],
+              });
+              matched = true;
+            }
+          } catch (e) {}
+        }
+        if (!matched) {
+          setData(null);
+        }
       } finally {
         setLoading(false);
       }
